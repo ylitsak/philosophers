@@ -1,7 +1,7 @@
 NAME = philo
 CC = gcc -pthread
 CFLAGS = -Wall -Wextra -Werror
-SRCS = main.c
+SRCS = main.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

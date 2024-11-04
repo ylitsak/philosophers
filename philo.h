@@ -9,12 +9,17 @@
 
 typedef struct s_philo
 {
-	int		n_philo;
-	int		n_eaten;
-	size_t	time_die;
-	size_t	time_eat;
-	size_t	time_sleep;
+	int			n_philo;
+	int			n_eaten;
+	size_t		time_die;
+	size_t		time_eat;
+	size_t		time_sleep;
+	pthread_t	thread;
 
 }	t_philo;
+
+// utils.c
+long	ft_atoi_long(char *str);
+int	check_input(char *argv[]);
 
 #endif
