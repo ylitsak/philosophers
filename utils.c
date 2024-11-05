@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/04 15:58:36 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:50:34 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ long	ft_atoi_long(char *str)
 	}
 	return (num * neg);
 }
+
 int	check_input(char *argv[])
 {
 	int	i;
