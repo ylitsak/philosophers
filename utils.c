@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/04 16:50:34 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/07 12:11:36 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,12 @@ int	check_input(char *argv[])
 		j = 0;
 		if (argv[i][j] == '-' || argv[i][j] == '0')
 		{
-			printf("first\n");
 			return (1);
 		}
 		while (argv[i][j])
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
 			{
-				printf("{%c}\n", argv[i][j]);
-				printf("second\n");
 				return (1);
 			}
 			j++;

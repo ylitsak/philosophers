@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/05 13:24:15 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:18:04 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,28 @@ pthread_mutex_unlock*/
 
 #include "philo.h"
 
-void	*test(void *arg)
+void	*routine(void *arg)
 {
-	// t_philo	*philo;
+	t_philo	*p;
 
-	// philo = (t_philo *)arg;
-	(void)arg;
+	p = (t_philo *)arg;
+	pthread_mutex_lock(p->left_fork);
+	pthread_mutex_lock(p->right_fork);
+	usleep(2000000);
 	printf("Hello\n");
-	usleep(10000);
+	pthread_mutex_unlock(p->left_fork);
+	pthread_mutex_unlock(p->right_fork);
 	return (NULL);
 }
 
-int	create_threads(t_philo *philo)
+int	create_threads(t_lock_struct *l, int amount)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo->n_philo)
+	while (i < amount)
 	{
-		if ((pthread_create(&philo[i].thread, NULL, &test, &philo[i])) != 0)
+		if ((pthread_create(&l->philos[i].thread, NULL, &routine, (void *)&l->philos[i])) != 0)
 		{
 			printf("Error creating threads\n");
 			return (1);
@@ -53,9 +56,9 @@ int	create_threads(t_philo *philo)
 		i++;
 	}
 	i = 0;
-	while (i < philo->n_philo)
+	while (i < amount)
 	{
-		if (pthread_join(philo[i].thread, NULL) != 0)
+		if (pthread_join(l->philos[i].thread, NULL) != 0)
 		{
 			printf("Error joining threads\n");
 			return (1);
@@ -65,30 +68,30 @@ int	create_threads(t_philo *philo)
 	return (0);
 }
 
-void	init_philos(t_philo *philo, int amount, int argc, char *argv[])
+void	init_philos(t_lock_struct *l, int amount, int argc, char *argv[])
 {
 	int	i;
 
 	i = 0;
 	while (i < amount)
 	{
-		philo[i].n_philo = ft_atoi_long(argv[1]);
-		philo[i].time_die = ft_atoi_long(argv[2]);
-		philo[i].time_eat = ft_atoi_long(argv[3]);
-		philo[i].time_sleep = ft_atoi_long(argv[4]);
+		l->philos[i].n_philo = ft_atoi_long(argv[1]);
+		l->philos[i].time_die = ft_atoi_long(argv[2]);
+		l->philos[i].time_eat = ft_atoi_long(argv[3]);
+		l->philos[i].time_sleep = ft_atoi_long(argv[4]);
 		if (argc == 6)
-			philo[i].n_eaten = ft_atoi_long(argv[5]);
+			l->philos[i].n_eaten = ft_atoi_long(argv[5]);
 		i++;
 	}
 }
 
 int	main(int argc, char *argv[])
 {
-	t_philo	*philo;
+	t_lock_struct	l;
 	int		amount;
-	// int		i;
+	int		i;
 
-	// i = 0;
+	i = 0;
 	if (argc != 5 && argc != 6)
 	{
 		printf("Incorrect amount of arguments.\n");
@@ -100,15 +103,23 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	amount = ft_atoi_long(argv[1]);
-	philo = malloc(amount * sizeof(t_philo));
-	if (!philo)
+	l.philos = malloc(amount * sizeof(t_philo));
+	if (!l.philos)
 	{
 		printf("Malloc failed\n");
 		return (1);
 	}
-	init_philos(philo, amount, argc, argv);
-	if (create_threads(philo) != 0)
+	init_philos(&l, amount, argc, argv);
+	if (init_mutex(&l, amount) != 0)
 		return (1);
-	free(philo);
+	if (create_threads(&l, amount) != 0)
+		return (1);
+	while (i < amount)
+	{
+		pthread_mutex_destroy(&(l.forks[i]));
+		i++;
+	}
+	free(l.philos);
+	free(l.forks);
 	return (0);
 }

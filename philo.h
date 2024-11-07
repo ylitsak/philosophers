@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/05 12:43:09 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:24:52 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,20 @@ typedef struct s_philo
 	size_t			time_sleep;
 	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*righ_fork;
+	pthread_mutex_t	*right_fork;
 
 }	t_philo;
+
+typedef struct s_lock_struct
+{
+	pthread_mutex_t	*forks;
+	t_philo			*philos;
+}	t_lock_struct;
 
 // utils.c
 long	ft_atoi_long(char *str);
 int		check_input(char *argv[]);
+//init_locks.c
+int	init_mutex(t_lock_struct *l, int amount);
 
 #endif
