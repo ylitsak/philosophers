@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/07 13:24:52 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/13 15:21:25 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@
 typedef struct s_philo
 {
 	int				n_philo;
-	int				n_eaten;
-	size_t			time_die;
-	size_t			time_eat;
-	size_t			time_sleep;
+	int				p_index;
+	int				eaten;
+	size_t			die_time;
+	size_t			eat_time;
+	size_t			sleep_time;
 	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -43,5 +44,9 @@ long	ft_atoi_long(char *str);
 int		check_input(char *argv[]);
 //init_locks.c
 int	init_mutex(t_lock_struct *l, int amount);
+//philo_actions
+void	philo_eating(t_philo *p);
+void	philo_thinking(t_philo *p);
+void	philo_sleeping(t_philo *p);
 
 #endif
