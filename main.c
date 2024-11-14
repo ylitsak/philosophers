@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/14 13:31:45 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:59:52 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,16 @@ void	*routine(void *arg)
 
 	p = (t_philo *)arg;
 	i = 1;
-	while (i)
+	if (p->p_index % 2 == 1)
 	{
 		philo_thinking(p);
+		usleep(200);
+	}
+	while (i)
+	{
 		philo_eating(p);
 		philo_sleeping(p);
+		philo_thinking(p);
 		if (p->eaten > 0)
 		{
 			p->eaten--;
@@ -118,7 +123,6 @@ int	main(int argc, char *argv[])
 		printf("Malloc failed\n");
 		return (1);
 	}
-	//monitor.philos->back = &monitor;
 	init_philos(&monitor, amount, argc, argv);
 	if (init_mutex(&monitor, amount) != 0)
 		return (1);
