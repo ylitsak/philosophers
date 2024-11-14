@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/14 13:51:35 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:52:42 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	struct s_lock_struct	*back;
 	long long		start_time;
-
+	long long		last_meal;
 }	t_philo;
 
 typedef struct s_lock_struct

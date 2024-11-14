@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/14 15:59:52 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:53:12 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,19 @@ int	create_threads(t_lock_struct *monitor, int amount)
 void	init_philos(t_lock_struct *monitor, int amount, int argc, char *argv[])
 {
 	int	i;
+	long long sim_start;
 
 	i = 0;
+	sim_start = start_time();
 	while (i < amount)
 	{
 		monitor->philos[i].n_philo = ft_atoi_long(argv[1]);
 		monitor->philos[i].die_time = ft_atoi_long(argv[2]);
 		monitor->philos[i].eat_time = ft_atoi_long(argv[3]);
 		monitor->philos[i].sleep_time = ft_atoi_long(argv[4]);
-		monitor->philos[i].start_time = start_time();
+		monitor->philos[i].p_index = i + 1;
+		monitor->philos[i].start_time = sim_start;
+		monitor->philos[i].last_meal = sim_start;
 		if (argc == 6)
 			monitor->philos[i].eaten = ft_atoi_long(argv[5]);
 		i++;

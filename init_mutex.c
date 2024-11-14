@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/14 14:04:16 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/14 17:34:58 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,19 @@ void	assing_forks(t_lock_struct *l, int amount)
 	int	i;
 
 	i = 0;
-	while (i < amount)
+	if (amount == 1)
 	{
-		l->philos[i].left_fork = &l->forks[i];
-		l->philos[i].right_fork = &l->forks[(i + 1) % amount] ;
-		l->philos[i].p_index = i + 1;
-		l->philos[i].back = l;
-		i++;
+		l->philos[0].left_fork = &l->forks[0];
+	}
+	else
+	{
+		while (i < amount)
+		{
+			l->philos[i].left_fork = &l->forks[i];
+			l->philos[i].right_fork = &l->forks[(i + 1) % amount];
+			l->philos[i].back = l;
+			i++;
+		}
 	}
 }
 
