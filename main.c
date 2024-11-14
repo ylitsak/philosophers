@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/13 15:22:07 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:31:45 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,22 @@ pthread_mutex_unlock*/
 void	*routine(void *arg)
 {
 	t_philo	*p;
+	int		i;
 
 	p = (t_philo *)arg;
-	// pthread_mutex_lock(p->left_fork);
-	// pthread_mutex_lock(p->right_fork);
-	// usleep(2000000);
-	// printf("Hello\n");
-	// pthread_mutex_unlock(p->left_fork);
-	// pthread_mutex_unlock(p->right_fork);
-	philo_thinking(p);
-	philo_eating(p);
-	philo_sleeping(p);
+	i = 1;
+	while (i)
+	{
+		philo_thinking(p);
+		philo_eating(p);
+		philo_sleeping(p);
+		if (p->eaten > 0)
+		{
+			p->eaten--;
+			if (p->eaten == 0)
+				i = 0;
+		}
+	}
 	return (NULL);
 }
 
@@ -82,6 +87,7 @@ void	init_philos(t_lock_struct *monitor, int amount, int argc, char *argv[])
 		monitor->philos[i].die_time = ft_atoi_long(argv[2]);
 		monitor->philos[i].eat_time = ft_atoi_long(argv[3]);
 		monitor->philos[i].sleep_time = ft_atoi_long(argv[4]);
+		monitor->philos[i].start_time = start_time();
 		if (argc == 6)
 			monitor->philos[i].eaten = ft_atoi_long(argv[5]);
 		i++;
@@ -112,6 +118,7 @@ int	main(int argc, char *argv[])
 		printf("Malloc failed\n");
 		return (1);
 	}
+	//monitor.philos->back = &monitor;
 	init_philos(&monitor, amount, argc, argv);
 	if (init_mutex(&monitor, amount) != 0)
 		return (1);
