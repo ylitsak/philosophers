@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/14 17:34:58 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:30:51 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	assing_forks(t_lock_struct *l, int amount)
 	if (amount == 1)
 	{
 		l->philos[0].left_fork = &l->forks[0];
+	//	l->philos[0].right_fork = NULL;
+		l->philos[0].back = l;
+		i++;
 	}
 	else
 	{

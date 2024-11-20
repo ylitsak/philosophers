@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/14 16:53:12 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:03:43 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ void	*routine(void *arg)
 
 	p = (t_philo *)arg;
 	i = 1;
+	if (p->n_philo == 1)
+	{
+		pthread_mutex_lock(p->left_fork);
+		printf("%lld %d has taken a fork\n",elapsed_time(p), p->p_index);
+		usleep(p->die_time * 1000);
+		pthread_mutex_unlock(p->left_fork);
+		printf("%lld %d has died\n",elapsed_time(p), p->p_index);
+		return (NULL);
+	}
 	if (p->p_index % 2 == 1)
 	{
 		philo_thinking(p);
@@ -41,24 +50,68 @@ void	*routine(void *arg)
 	}
 	while (i)
 	{
+		if (p->eaten == 0 || p->died[0] == 1)
+			i = 0;
 		philo_eating(p);
+		if (p->eaten == 0 || p->died[0] == 1)
+			i = 0;
 		philo_sleeping(p);
+		if (p->eaten == 0 || p->died[0] == 1)
+			i = 0;
 		philo_thinking(p);
 		if (p->eaten > 0)
 		{
 			p->eaten--;
-			if (p->eaten == 0)
+			if (p->eaten == 0 || p->died[0] == 1)
 				i = 0;
 		}
 	}
 	return (NULL);
 }
 
+int check_death(t_philo *p)
+{
+	//printf ("time %lld\n", start_time() - p->last_meal);
+	if ((start_time() - p->last_meal) > p->die_time)
+	{
+		p->died[0] = 1;
+		pthread_mutex_lock(&p->back->print_lock);
+		printf("%d philo died\n", p->p_index);
+		pthread_mutex_unlock(&p->back->print_lock);
+		return (1);
+	}
+	return (0);
+}
+void	*is_philo_alive(void *arg)
+{
+	t_lock_struct	*death_track;
+	int				i;
+
+	death_track = (t_lock_struct *)arg;
+	while (1)
+	{
+		i = 0;
+		while (i < death_track->philos->n_philo)
+		{
+			if (check_death(&death_track->philos[i]))
+				return (NULL);
+			}
+			i++;
+		}
+	return (NULL);
+}
+
 int	create_threads(t_lock_struct *monitor, int amount)
 {
+	pthread_t		death_monitor;
 	int	i;
 
 	i = 0;
+	if (pthread_create(&death_monitor, NULL, &is_philo_alive, monitor) != 0)
+	{
+		printf("Error creating thread\n");
+		return (1);
+	}
 	while (i < amount)
 	{
 		if ((pthread_create(&monitor->philos[i].thread, NULL, &routine, (void *)&monitor->philos[i])) != 0)
@@ -69,6 +122,11 @@ int	create_threads(t_lock_struct *monitor, int amount)
 		i++;
 	}
 	i = 0;
+	if (pthread_join(death_monitor, NULL) != 0)
+	{
+		printf("Error joining threads\n");
+		return (1);
+	}
 	while (i < amount)
 	{
 		if (pthread_join(monitor->philos[i].thread, NULL) != 0)
@@ -95,6 +153,7 @@ void	init_philos(t_lock_struct *monitor, int amount, int argc, char *argv[])
 		monitor->philos[i].eat_time = ft_atoi_long(argv[3]);
 		monitor->philos[i].sleep_time = ft_atoi_long(argv[4]);
 		monitor->philos[i].p_index = i + 1;
+		monitor->philos[i].died = &monitor->is_dead;
 		monitor->philos[i].start_time = sim_start;
 		monitor->philos[i].last_meal = sim_start;
 		if (argc == 6)
@@ -110,6 +169,7 @@ int	main(int argc, char *argv[])
 	int		i;
 
 	i = 0;
+	monitor.is_dead = 0;
 	if (argc != 5 && argc != 6)
 	{
 		printf("Incorrect amount of arguments.\n");

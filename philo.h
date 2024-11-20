@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/14 16:52:42 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:02:06 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,24 @@
 
 typedef struct s_philo
 {
-	int				n_philo;
-	int				p_index;
-	int				eaten;
-	size_t			die_time;
-	size_t			eat_time;
-	size_t			sleep_time;
-	pthread_t		thread;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
+	int						n_philo;
+	int						p_index;
+	int						eaten;
+	int						*died;
+	long long				die_time;
+	long long				eat_time;
+	long long				sleep_time;
+	pthread_t				thread;
+	pthread_mutex_t			*left_fork;
+	pthread_mutex_t			*right_fork;
 	struct s_lock_struct	*back;
-	long long		start_time;
-	long long		last_meal;
+	long long				start_time;
+	long long				last_meal;
 }	t_philo;
 
 typedef struct s_lock_struct
 {
+	int				is_dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
 	t_philo			*philos;
@@ -54,5 +56,6 @@ void	philo_sleeping(t_philo *p);
 //timer.c
 long long	start_time(void);
 long long	elapsed_time(t_philo *p);
+void	ft_usleep(t_philo *p, long long time);
 
 #endif
