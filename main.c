@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/21 11:44:12 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/21 15:09:24 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,14 @@ pthread_mutex_unlock*/
 void	*routine(void *arg)
 {
 	t_philo	*p;
-	int		i;
 
 	p = (t_philo *)arg;
-	i = 1;
 	if (p->n_philo == 1)
 	{
 		pthread_mutex_lock(p->left_fork);
 		printf("%lld %d has taken a fork\n",elapsed_time(p), p->p_index);
 		usleep(p->die_time * 1000);
 		pthread_mutex_unlock(p->left_fork);
-		printf("%lld %d died\n", elapsed_time(p), p->p_index);
 		return (NULL);
 	}
 	if (p->p_index % 2 == 1)
@@ -48,30 +45,18 @@ void	*routine(void *arg)
 		philo_thinking(p);
 		usleep(200);
 	}
-	while (i)
+	while (1)
 	{
 		pthread_mutex_lock(&p->back->dead_lock);
-		if (p->eaten == 0 || p->died[0] == 1)
+		if (p->died[0] == 1)
 		{
 			pthread_mutex_unlock(&p->back->dead_lock);
 			return (NULL);
 		}
 		pthread_mutex_unlock(&p->back->dead_lock);
 		philo_eating(p);
-		// if (p->eaten == 0 || p->died[0] == 1)
-		// 	return (NULL);
 		philo_sleeping(p);
-		// if (p->eaten == 0 || p->died[0] == 1)
-		// 	return (NULL);
 		philo_thinking(p);
-		// if (p->eaten == 0 || p->died[0] == 1)
-		// 	return (NULL);
-		pthread_mutex_lock(&p->back->dead_lock);
-		if (p->eaten > 0)
-		{
-			p->eaten--;
-		}
-		pthread_mutex_unlock(&p->back->dead_lock);
 	}
 	return (NULL);
 }
@@ -95,18 +80,27 @@ void	*is_philo_alive(void *arg)
 {
 	t_lock_struct	*death_track;
 	int				i;
+	int				count;
 
 	death_track = (t_lock_struct *)arg;
 	while (1)
 	{
 		i = 0;
+		count = 0;
 		while (i < death_track->philos->n_philo)
 		{
+			if (death_track->philos[i].eaten == 0)
+				count++;
 			if (check_death(&death_track->philos[i]))
 				return (NULL);
-			}
 			i++;
 		}
+		if (count == death_track->philos->n_philo)
+		{
+			death_track->is_dead = 1;
+			return (NULL);
+		}
+	}
 	return (NULL);
 }
 
@@ -167,6 +161,8 @@ void	init_philos(t_lock_struct *monitor, int amount, int argc, char *argv[])
 		monitor->philos[i].last_meal = sim_start;
 		if (argc == 6)
 			monitor->philos[i].eaten = ft_atoi_long(argv[5]);
+		else
+			monitor->philos[i].eaten = -1;
 		i++;
 	}
 }
