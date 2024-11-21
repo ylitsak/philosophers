@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/20 15:03:43 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:44:12 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	*routine(void *arg)
 		printf("%lld %d has taken a fork\n",elapsed_time(p), p->p_index);
 		usleep(p->die_time * 1000);
 		pthread_mutex_unlock(p->left_fork);
-		printf("%lld %d has died\n",elapsed_time(p), p->p_index);
+		printf("%lld %d died\n", elapsed_time(p), p->p_index);
 		return (NULL);
 	}
 	if (p->p_index % 2 == 1)
@@ -50,36 +50,45 @@ void	*routine(void *arg)
 	}
 	while (i)
 	{
+		pthread_mutex_lock(&p->back->dead_lock);
 		if (p->eaten == 0 || p->died[0] == 1)
-			i = 0;
+		{
+			pthread_mutex_unlock(&p->back->dead_lock);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&p->back->dead_lock);
 		philo_eating(p);
-		if (p->eaten == 0 || p->died[0] == 1)
-			i = 0;
+		// if (p->eaten == 0 || p->died[0] == 1)
+		// 	return (NULL);
 		philo_sleeping(p);
-		if (p->eaten == 0 || p->died[0] == 1)
-			i = 0;
+		// if (p->eaten == 0 || p->died[0] == 1)
+		// 	return (NULL);
 		philo_thinking(p);
+		// if (p->eaten == 0 || p->died[0] == 1)
+		// 	return (NULL);
+		pthread_mutex_lock(&p->back->dead_lock);
 		if (p->eaten > 0)
 		{
 			p->eaten--;
-			if (p->eaten == 0 || p->died[0] == 1)
-				i = 0;
 		}
+		pthread_mutex_unlock(&p->back->dead_lock);
 	}
 	return (NULL);
 }
 
 int check_death(t_philo *p)
 {
-	//printf ("time %lld\n", start_time() - p->last_meal);
+	pthread_mutex_lock(&p->back->dead_lock);
 	if ((start_time() - p->last_meal) > p->die_time)
 	{
 		p->died[0] = 1;
+		pthread_mutex_unlock(&p->back->dead_lock);
 		pthread_mutex_lock(&p->back->print_lock);
-		printf("%d philo died\n", p->p_index);
+		printf("%lld %d died\n", elapsed_time(p), p->p_index);
 		pthread_mutex_unlock(&p->back->print_lock);
 		return (1);
 	}
+	pthread_mutex_unlock(&p->back->dead_lock);
 	return (0);
 }
 void	*is_philo_alive(void *arg)

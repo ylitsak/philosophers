@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/20 14:02:06 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:17:44 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 typedef struct s_lock_struct
 {
 	int				is_dead;
+	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
 	t_philo			*philos;
@@ -57,5 +58,7 @@ void	philo_sleeping(t_philo *p);
 long long	start_time(void);
 long long	elapsed_time(t_philo *p);
 void	ft_usleep(t_philo *p, long long time);
+//print_messages.c
+void	print_message(t_philo *p, char *msg);
 
 #endif

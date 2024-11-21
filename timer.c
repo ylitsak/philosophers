@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:14:14 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/20 15:01:07 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:22:29 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,7 @@ void	ft_usleep(t_philo *p, long long time)
 	{
 		usleep(1000);
 		if (p->died[0] == 1)
-		{
-			// pthread_mutex_lock(&p->back->print_lock);
-			// printf("did we die\n");
-			// pthread_mutex_unlock(&p->back->print_lock);
 			return ;
-		}
 		new = start_time();
 	}
 }

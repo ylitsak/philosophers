@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/20 13:30:51 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:32:11 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ int	init_mutex(t_lock_struct *l, int amount)
 
 	i = 0;
 	if (pthread_mutex_init(&l->print_lock, NULL) != 0)
+	{
+		printf("Mutex_init print_lock failed\n");
+		free(l->philos);
+		return (1);
+	}
+	if (pthread_mutex_init(&l->dead_lock, NULL) != 0)
 	{
 		printf("Mutex_init print_lock failed\n");
 		free(l->philos);
