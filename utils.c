@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/07 12:11:36 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:59:08 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,47 @@ long	ft_atoi_long(char *str)
 	return (num * neg);
 }
 
-int	check_input(char *argv[])
+int	check_input(int argc, char *argv[])
 {
 	int	i;
 	int	j;
 
 	i = 0;
+	if (argc != 5 && argc != 6)
+		return (-1);
 	while (argv[i])
 	{
 		j = 0;
 		if (argv[i][j] == '-' || argv[i][j] == '0')
 		{
-			return (1);
+			return (-1);
 		}
 		while (argv[i][j])
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
 			{
-				return (1);
+				return (-1);
 			}
 			j++;
 		}
 		i++;
 	}
 	return (0);
+}
+
+void	free_and_detroy(int amount, t_lock_struct *monitor)
+{
+	int	i;
+
+	i = 0;
+	if (monitor->philos != NULL)
+		free(monitor->philos);
+	while (i < amount)
+	{
+		pthread_mutex_destroy(&monitor->forks[i]);
+		i++;
+	}
+	if (monitor->forks != NULL)
+		free(monitor->forks);
+	return ;
 }

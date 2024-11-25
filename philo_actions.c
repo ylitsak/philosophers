@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:03:56 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/21 15:14:26 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:59:36 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,9 @@
 
 void	philo_eating(t_philo *p)
 {
-	// if (p->p_index % 2 == 1)
-	// {
-	// 	pthread_mutex_lock(p->left_fork);
-	// 	print_message(p, "has taken a fork");
-	// 	pthread_mutex_lock(p->right_fork);
-
-	// }
-	// else
-	// {
-	// 	pthread_mutex_lock(p->right_fork);
-	// 	print_message(p, "has taken a fork");
-	// 	pthread_mutex_lock(p->left_fork);	
-	// }
-	pthread_mutex_lock(p->right_fork);
-	print_message(p, "has taken a fork");
 	pthread_mutex_lock(p->left_fork);
+	print_message(p, "has taken a fork");
+	pthread_mutex_lock(p->right_fork);
 	print_message(p, "has taken a fork");
 	print_message(p, "is eating");
 	if (p->eaten > 0)

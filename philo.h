@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/21 11:17:44 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:03:56 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,25 @@ typedef struct s_lock_struct
 }	t_lock_struct;
 
 // utils.c
-long	ft_atoi_long(char *str);
-int		check_input(char *argv[]);
+long		ft_atoi_long(char *str);
+int			check_input(int argc, char *argv[]);
+void		free_and_detroy(int amount, t_lock_struct *monitor);
 //init_locks.c
-int	init_mutex(t_lock_struct *l, int amount);
+int			init_mutex(t_lock_struct *l, int amount);
 //philo_actions
-void	philo_eating(t_philo *p);
-void	philo_thinking(t_philo *p);
-void	philo_sleeping(t_philo *p);
+void		philo_eating(t_philo *p);
+void		philo_thinking(t_philo *p);
+void		philo_sleeping(t_philo *p);
 //timer.c
 long long	start_time(void);
 long long	elapsed_time(t_philo *p);
-void	ft_usleep(t_philo *p, long long time);
+void		ft_usleep(t_philo *p, long long time);
 //print_messages.c
-void	print_message(t_philo *p, char *msg);
+void		print_message(t_philo *p, char *msg);
+//create_threads.c
+int			create_threads(t_lock_struct *monitor, int amount);
+//monitoring_threads.c
+void		*monitor_thread(void *arg);
+void		*routine(void *arg);
 
 #endif
