@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 13:59:08 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:25:30 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_input(int argc, char *argv[])
 	return (0);
 }
 
-void	free_and_detroy(int amount, t_lock_struct *monitor)
+void	free_and_detroy(int amount, t_main_struct *monitor)
 {
 	int	i;
 

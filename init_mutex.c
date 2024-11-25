@@ -6,13 +6,13 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 13:02:21 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:55:23 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	assing_forks(t_lock_struct *l, int amount)
+void	assing_forks(t_main_struct *l, int amount)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ void	assing_forks(t_lock_struct *l, int amount)
 	}
 }
 
-int	init_mutex(t_lock_struct *l, int amount)
+int	init_mutex(t_main_struct *l, int amount)
 {
 	int				i;
 
@@ -59,7 +59,7 @@ int	init_mutex(t_lock_struct *l, int amount)
 		printf("Malloc failed making forks\n");
 		free(l->philos);
 		return (1);
-	} 
+	}
 	while (i < amount)
 	{
 		if (pthread_mutex_init(&l->forks[i], NULL) != 0)

@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 10:18:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/21 14:35:08 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:56:19 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	print_message(t_philo *p, char *msg)
 	}
 	pthread_mutex_unlock(&p->back->dead_lock);
 	pthread_mutex_lock(&p->back->print_lock);
-	printf("%lld %d %s\n",elapsed_time(p), p->p_index, msg);
+	printf("%lld %d %s\n", elapsed_time(p), p->p_index, msg);
 	pthread_mutex_unlock(&p->back->print_lock);
 }

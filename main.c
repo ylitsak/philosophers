@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 14:03:08 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:25:30 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ pthread_mutex_unlock*/
 
 #include "philo.h"
 
-void	init_philos(t_lock_struct *monitor, int amount, int argc, char *argv[])
+void	init_philos(t_main_struct *monitor, int amount, int argc, char *argv[])
 {
 	int			i;
 	long long	sim_start;
@@ -54,7 +54,7 @@ void	init_philos(t_lock_struct *monitor, int amount, int argc, char *argv[])
 
 int	main(int argc, char *argv[])
 {
-	t_lock_struct	monitor;
+	t_main_struct	monitor;
 	int				amount;
 
 	monitor.is_dead = 0;

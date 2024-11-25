@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 14:04:28 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:03:05 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static int	check_death(t_philo *p)
 
 static void	one_philo(t_philo *p)
 {
-		pthread_mutex_lock(p->left_fork);
-		print_message(p, "has taken a fork");
-		usleep(p->die_time * 1000);
-		pthread_mutex_unlock(p->left_fork);
+	pthread_mutex_lock(p->left_fork);
+	print_message(p, "has taken a fork");
+	usleep(p->die_time * 1000);
+	pthread_mutex_unlock(p->left_fork);
 }
 
 void	*routine(void *arg)
@@ -69,26 +69,26 @@ void	*routine(void *arg)
 
 void	*monitor_thread(void *arg)
 {
-	t_lock_struct	*death_track;
+	t_main_struct	*main_monitor;
 	int				i;
 	int				count;
 
-	death_track = (t_lock_struct *)arg;
+	main_monitor = (t_main_struct *)arg;
 	while (1)
 	{
 		i = 0;
 		count = 0;
-		while (i < death_track->philos->n_philo)
+		while (i < main_monitor->philos->n_philo)
 		{
-			if (death_track->philos[i].eaten == 0)
+			if (main_monitor->philos[i].eaten == 0)
 				count++;
-			if (check_death(&death_track->philos[i]))
+			if (check_death(&main_monitor->philos[i]))
 				return (NULL);
 			i++;
 		}
-		if (count == death_track->philos->n_philo)
+		if (count == main_monitor->philos->n_philo)
 		{
-			death_track->is_dead = 1;
+			main_monitor->is_dead = 1;
 			return (NULL);
 		}
 	}
