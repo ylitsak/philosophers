@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 14:25:30 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/26 13:27:14 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_input(int argc, char *argv[])
 	return (0);
 }
 
-void	free_and_detroy(int amount, t_main_struct *monitor)
+void	free_and_destroy(int amount, t_main_struct *monitor)
 {
 	int	i;
 
@@ -79,3 +79,31 @@ void	free_and_detroy(int amount, t_main_struct *monitor)
 		free(monitor->forks);
 	return ;
 }
+
+void	print_error(char *s, int fd)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		i++;
+	}
+	write (fd, s, i);
+	write (fd, "\n", 2);
+}
+
+void	print_message(t_philo *p, char *msg)
+{
+	pthread_mutex_lock(&p->back->dead_lock);
+	if (p->died[0] == 1)
+	{
+		pthread_mutex_unlock(&p->back->dead_lock);
+		return ;
+	}
+	pthread_mutex_unlock(&p->back->dead_lock);
+	pthread_mutex_lock(&p->back->print_lock);
+	printf("%lld %d %s\n", elapsed_time(p), p->p_index, msg);
+	pthread_mutex_unlock(&p->back->print_lock);
+}
+

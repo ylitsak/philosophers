@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 14:29:01 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/26 12:32:33 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ typedef struct s_main_struct
 // utils.c
 long		ft_atoi_long(char *str);
 int			check_input(int argc, char *argv[]);
-void		free_and_detroy(int amount, t_main_struct *monitor);
+void		free_and_destroy(int amount, t_main_struct *monitor);
+void		print_error(char *s, int fd);
+void		print_message(t_philo *p, char *msg);
 //init_locks.c
 int			init_mutex(t_main_struct *l, int amount);
 //philo_actions

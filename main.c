@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 14:25:30 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/26 12:33:30 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ pthread_mutex_unlock*/
 
 #include "philo.h"
 
-void	init_philos(t_main_struct *monitor, int amount, int argc, char *argv[])
+static void	init_philos(t_main_struct *monitor, int amount, int argc, char *argv[])
 {
 	int			i;
 	long long	sim_start;
@@ -60,14 +60,14 @@ int	main(int argc, char *argv[])
 	monitor.is_dead = 0;
 	if (check_input(argc, &argv[1]) != 0)
 	{
-		printf("Incorrect input\n");
+		print_error("Incorrect input", 2);
 		return (-1);
 	}
 	amount = ft_atoi_long(argv[1]);
 	monitor.philos = malloc(amount * sizeof(t_philo));
 	if (!monitor.philos)
 	{
-		printf("Malloc failed\n");
+		print_error("Malloc failed", 2);
 		return (-1);
 	}
 	init_philos(&monitor, amount, argc, argv);
@@ -75,6 +75,6 @@ int	main(int argc, char *argv[])
 		return (-1);
 	if (create_threads(&monitor, amount) != 0)
 		return (-1);
-	free_and_detroy(amount, &monitor);
+	free_and_destroy(amount, &monitor);
 	return (0);
 }

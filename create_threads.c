@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:36:45 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 14:58:41 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/26 13:23:19 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,23 @@ static int	join_philo_threads(t_main_struct *monitor, int amount)
 static int	create_philo_threads(t_main_struct *monitor, int amount)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (i < amount)
 	{
 		if ((pthread_create(&monitor->philos[i].thread, NULL, &routine, &monitor->philos[i])) != 0)
 		{
+			while (j < i)
+			{
+				if (pthread_join(monitor->philos[j].thread, NULL) != 0)
+				{
+					print_error("Error joining philos while cleanup", 2);
+					return (-1);
+				}
+				j++;
+			}
 			return (-1);
 		}
 		i++;
@@ -50,22 +61,24 @@ int	create_threads(t_main_struct *monitor, int amount)
 
 	if (pthread_create(&main_monitor, NULL, &monitor_thread, monitor) != 0)
 	{
-		printf("Error creating thread\n");
+		print_error("Error creating main thread", 2);
 		return (-1);
 	}
 	if (create_philo_threads(monitor, amount) != 0)
 	{
-		printf("Error creating philo threads\n");
+		if (pthread_join(main_monitor, NULL) != 0)
+			print_error("Error joining main thread while cleanup", 2);
+		print_error("Error creating philo threads", 2);
 		return (-1);
 	}
 	if (pthread_join(main_monitor, NULL) != 0)
 	{
-		printf("Error joining threads\n");
+		print_error("Error joining main thread", 2);
 		return (-1);
 	}
 	if (join_philo_threads(monitor, amount) != 0)
 	{
-		printf("Error joining philo threads\n");
+		print_error("Error joining philo threads", 2);
 		return (-1);
 	}
 	return (0);
