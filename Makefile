@@ -1,6 +1,6 @@
 NAME = philo
 CC = gcc -pthread
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c utils.c init_mutex.c philo_actions.c timer.c create_threads.c monitoring_threads.c
 OBJS = $(SRCS:.c=.o)
 

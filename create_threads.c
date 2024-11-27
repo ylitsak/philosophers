@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:36:45 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/26 13:23:19 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/27 11:13:20 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	join_philo_threads(t_main_struct *monitor, int amount)
 	return (0);
 }
 
-static int	create_philo_threads(t_main_struct *monitor, int amount)
+static int	create_philo_threads(t_main_struct *m, int amount)
 {
 	int	i;
 	int	j;
@@ -37,11 +37,12 @@ static int	create_philo_threads(t_main_struct *monitor, int amount)
 	j = 0;
 	while (i < amount)
 	{
-		if ((pthread_create(&monitor->philos[i].thread, NULL, &routine, &monitor->philos[i])) != 0)
+		if ((pthread_create(&m->philos[i].thread, NULL, &routine,
+					&m->philos[i])) != 0)
 		{
 			while (j < i)
 			{
-				if (pthread_join(monitor->philos[j].thread, NULL) != 0)
+				if (pthread_join(m->philos[j].thread, NULL) != 0)
 				{
 					print_error("Error joining philos while cleanup", 2);
 					return (-1);

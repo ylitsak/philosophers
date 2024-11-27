@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/25 15:03:05 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/27 11:34:51 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	check_death(t_philo *p)
 		pthread_mutex_lock(&p->back->print_lock);
 		printf("%lld %d died\n", elapsed_time(p), p->p_index);
 		pthread_mutex_unlock(&p->back->print_lock);
-		return (1);
+		return (-1);
 	}
 	pthread_mutex_unlock(&p->back->dead_lock);
 	return (0);
@@ -36,6 +36,13 @@ static void	one_philo(t_philo *p)
 	pthread_mutex_unlock(p->left_fork);
 }
 
+static void	sync_routine(t_philo *p)
+{
+	philo_thinking(p);
+	usleep(200);
+	return ;
+}
+
 void	*routine(void *arg)
 {
 	t_philo	*p;
@@ -47,10 +54,7 @@ void	*routine(void *arg)
 		return (NULL);
 	}
 	if (p->p_index % 2 == 1)
-	{
-		philo_thinking(p);
-		usleep(200);
-	}
+		sync_routine(p);
 	while (1)
 	{
 		pthread_mutex_lock(&p->back->dead_lock);
@@ -82,7 +86,7 @@ void	*monitor_thread(void *arg)
 		{
 			if (main_monitor->philos[i].eaten == 0)
 				count++;
-			if (check_death(&main_monitor->philos[i]))
+			if (check_death(&main_monitor->philos[i]) != 0)
 				return (NULL);
 			i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/26 13:27:14 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/27 10:19:54 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,3 @@ void	print_message(t_philo *p, char *msg)
 	printf("%lld %d %s\n", elapsed_time(p), p->p_index, msg);
 	pthread_mutex_unlock(&p->back->print_lock);
 }
-
