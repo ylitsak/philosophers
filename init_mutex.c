@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/26 12:39:27 by saylital         ###   ########.fr       */
+/*   Updated: 2024/11/27 12:13:34 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,20 @@
 static int	init_forks(t_main_struct *m, int amount)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (i < amount)
 	{
 		if (pthread_mutex_init(&m->forks[i], NULL) != 0)
 		{
-			print_error("Mutex_init failed", 2);
+			while (j < i)
+			{
+				pthread_mutex_destroy(&m->forks[j]);
+				j++;
+			}
+			print_error("Mutex_init_forks failed", 2);
 			free(m->forks);
 			free(m->philos);
 			return (-1);
@@ -76,7 +83,8 @@ int	init_mutex(t_main_struct *m, int amount)
 		free(m->philos);
 		return (-1);
 	}
-	init_forks(m, amount);
+	if (init_forks(m, amount) != 0)
+		return (-1);
 	assing_forks(m, amount);
 	return (0);
 }
