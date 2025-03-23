@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/27 11:34:51 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:34:19 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	*monitor_thread(void *arg)
 			main_monitor->is_dead = 1;
 			return (NULL);
 		}
+		usleep(100);
 	}
 	return (NULL);
 }
