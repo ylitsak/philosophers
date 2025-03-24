@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/24 14:15:37 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:43:32 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,3 @@ int	init_mutex(t_main_struct *m, int amount)
 	assing_forks(m, amount);
 	return (0);
 }
-
-	// if (pthread_mutex_init(&m->print_lock, NULL) != 0)
-	// {
-	// 	mutex_failed(m, "Mutex_init print_lock failed");
-	// 	// print_error("Mutex_init print_lock failed", 2);
-	// 	// free(m->philos);
-	// 	return (-1);
-	// }
