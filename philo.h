@@ -6,14 +6,13 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/26 12:32:33 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:16:04 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 # include <stdio.h> //printf
-# include <string.h> //memset
 # include <unistd.h> // usleep
 # include <stdlib.h> // malloc free
 # include <sys/time.h> //gettimeofday
@@ -42,6 +41,7 @@ typedef struct s_main_struct
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
+	pthread_mutex_t	value_lock;
 	t_philo			*philos;
 }	t_main_struct;
 
@@ -60,7 +60,7 @@ void		philo_sleeping(t_philo *p);
 //timer.c
 long long	start_time(void);
 long long	elapsed_time(t_philo *p);
-void		ft_usleep(t_philo *p, long long time);
+void		wait_in_ms(t_philo *p, long long time);
 //print_messages.c
 void		print_message(t_philo *p, char *msg);
 //create_threads.c

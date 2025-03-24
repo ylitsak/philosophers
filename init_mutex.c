@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/27 12:13:34 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:15:37 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,33 @@ static void	assing_forks(t_main_struct *m, int amount)
 	}
 }
 
+static void	mutex_failed(t_main_struct *m, char *msg)
+{
+	print_error(msg, 2);
+	free(m->philos);
+}
+
 int	init_mutex(t_main_struct *m, int amount)
 {
 	if (pthread_mutex_init(&m->print_lock, NULL) != 0)
 	{
-		print_error("Mutex_init print_lock failed", 2);
-		free(m->philos);
+		mutex_failed(m, "Mutex_init print_lock failed");
 		return (-1);
 	}
 	if (pthread_mutex_init(&m->dead_lock, NULL) != 0)
 	{
-		print_error("Mutex_init dead_lock failed", 2);
-		free(m->philos);
+		mutex_failed(m, "Mutex_init dead_lock failed");
+		return (-1);
+	}
+	if (pthread_mutex_init(&m->value_lock, NULL) != 0)
+	{
+		mutex_failed(m, "Mutex_init value_lock failed");
 		return (-1);
 	}
 	m->forks = malloc(sizeof(pthread_mutex_t) * amount);
 	if (!m->forks)
 	{
-		print_error("Malloc failed making forks", 2);
-		free(m->philos);
+		mutex_failed(m, "Malloc failed making forks");
 		return (-1);
 	}
 	if (init_forks(m, amount) != 0)
@@ -88,3 +96,11 @@ int	init_mutex(t_main_struct *m, int amount)
 	assing_forks(m, amount);
 	return (0);
 }
+
+	// if (pthread_mutex_init(&m->print_lock, NULL) != 0)
+	// {
+	// 	mutex_failed(m, "Mutex_init print_lock failed");
+	// 	// print_error("Mutex_init print_lock failed", 2);
+	// 	// free(m->philos);
+	// 	return (-1);
+	// }

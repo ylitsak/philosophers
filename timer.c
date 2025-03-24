@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:14:14 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/21 18:59:56 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:46:47 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ long long	start_time(void)
 	return (result);
 }
 
-void	ft_usleep(t_philo *p, long long time)
+void	wait_in_ms(t_philo *p, long long time)
 {
 	long long	start;
 	long long	new;

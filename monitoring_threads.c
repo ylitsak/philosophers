@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/21 18:34:19 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:46:36 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 static int	check_death(t_philo *p)
 {
 	pthread_mutex_lock(&p->back->dead_lock);
+	pthread_mutex_lock(&p->back->value_lock);
 	if ((start_time() - p->last_meal) > p->die_time)
 	{
 		p->died[0] = 1;
+		pthread_mutex_unlock(&p->back->value_lock);
 		pthread_mutex_unlock(&p->back->dead_lock);
 		pthread_mutex_lock(&p->back->print_lock);
 		printf("%lld %d died\n", elapsed_time(p), p->p_index);
 		pthread_mutex_unlock(&p->back->print_lock);
 		return (-1);
 	}
+	pthread_mutex_unlock(&p->back->value_lock);
 	pthread_mutex_unlock(&p->back->dead_lock);
 	return (0);
 }
