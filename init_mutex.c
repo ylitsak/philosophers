@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/24 18:43:32 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:01:32 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ static void	assing_forks(t_main_struct *m, int amount)
 		while (i < amount)
 		{
 			m->philos[i].left_fork = &m->forks[i];
-			m->philos[i].right_fork = &m->forks[(i + 1) % amount];
+			if (i == amount - 1)
+				m->philos[i].right_fork = &m->forks[0];
+			else
+				m->philos[i].right_fork = &m->forks[i + 1];
 			m->philos[i].back = m;
 			i++;
 		}
