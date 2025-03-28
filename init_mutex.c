@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/26 16:01:32 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:52:03 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	init_forks(t_main_struct *m, int amount)
 	return (0);
 }
 
-static void	assing_forks(t_main_struct *m, int amount)
+static void	assign_forks(t_main_struct *m, int amount)
 {
 	int	i;
 
@@ -96,6 +96,6 @@ int	init_mutex(t_main_struct *m, int amount)
 	}
 	if (init_forks(m, amount) != 0)
 		return (-1);
-	assing_forks(m, amount);
+	assign_forks(m, amount);
 	return (0);
 }

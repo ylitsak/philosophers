@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/24 18:31:54 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:08:44 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ void		print_message(t_philo *p, char *msg);
 //init_locks.c
 int			init_mutex(t_main_struct *l, int amount);
 //philo_actions
-void		philo_eating(t_philo *p);
+void		philo_actions(t_philo *p);
 void		philo_thinking(t_philo *p);
-void		philo_sleeping(t_philo *p);
 //timer.c
 long long	start_time(void);
 long long	elapsed_time(t_philo *p);

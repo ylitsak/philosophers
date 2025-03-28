@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/26 20:09:04 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:27:32 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	sync_routine(t_philo *p)
 
 void	*routine(void *arg)
 {
-
 	t_philo	*p;
 
 	p = (t_philo *)arg;
@@ -68,9 +67,7 @@ void	*routine(void *arg)
 			return (NULL);
 		}
 		pthread_mutex_unlock(&p->back->dead_lock);
-		philo_eating(p);
-		philo_sleeping(p);
-		philo_thinking(p);
+		philo_actions(p);
 		usleep(100);
 	}
 	return (NULL);
@@ -89,18 +86,19 @@ void	*monitor_thread(void *arg)
 		count = 0;
 		while (i < main_monitor->philos->n_philo)
 		{
+			pthread_mutex_lock(&main_monitor->value_lock);
 			if (main_monitor->philos[i].eaten == 0)
 				count++;
+			pthread_mutex_unlock(&main_monitor->value_lock);
 			if (check_death(&main_monitor->philos[i]) != 0)
-			{
-				//main_monitor->is_dead = 1;
 				return (NULL);
-			}
 			i++;
 		}
 		if (count == main_monitor->philos->n_philo)
 		{
+			pthread_mutex_lock(&main_monitor->dead_lock);
 			main_monitor->is_dead = 1;
+			pthread_mutex_unlock(&main_monitor->dead_lock);
 			return (NULL);
 		}
 		usleep(100);
