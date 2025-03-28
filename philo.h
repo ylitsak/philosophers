@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/28 15:08:44 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:51:57 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void		wait_in_ms(t_philo *p, long long time);
 void		print_message(t_philo *p, char *msg);
 //create_threads.c
 int			create_threads(t_main_struct *monitor, int amount);
+void		sync_routine(t_philo *p);
 //monitoring_threads.c
 void		*monitor_thread(void *arg);
 void		*routine(void *arg);

@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:36:45 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/27 11:13:20 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:52:37 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,10 @@ int	create_threads(t_main_struct *monitor, int amount)
 		return (-1);
 	}
 	return (0);
+}
+
+void	sync_routine(t_philo *p)
+{
+	wait_in_ms(p, p->eat_time);
+	return ;
 }

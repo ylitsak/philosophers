@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/28 15:27:32 by saylital         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:53:02 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ static void	one_philo(t_philo *p)
 	pthread_mutex_unlock(p->left_fork);
 }
 
-static void	sync_routine(t_philo *p)
-{
-	wait_in_ms(p, p->eat_time);
-	return ;
-}
-
 void	*routine(void *arg)
 {
 	t_philo	*p;
@@ -73,35 +67,76 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+static int	philos_status_loop(t_main_struct *m)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (i < m->philos->n_philo)
+	{
+		pthread_mutex_lock(&m->value_lock);
+		if (m->philos[i].eaten == 0)
+			count++;
+		pthread_mutex_unlock(&m->value_lock);
+		if (check_death(&m->philos[i]) != 0)
+			return (0);
+		i++;
+	}
+	if (count == m->philos->n_philo)
+	{
+		pthread_mutex_lock(&m->dead_lock);
+		m->is_dead = 1;
+		pthread_mutex_unlock(&m->dead_lock);
+		return (0);
+	}
+	usleep(100);
+	return (1);
+}
+
 void	*monitor_thread(void *arg)
 {
 	t_main_struct	*main_monitor;
-	int				i;
-	int				count;
 
 	main_monitor = (t_main_struct *)arg;
 	while (1)
 	{
-		i = 0;
-		count = 0;
-		while (i < main_monitor->philos->n_philo)
-		{
-			pthread_mutex_lock(&main_monitor->value_lock);
-			if (main_monitor->philos[i].eaten == 0)
-				count++;
-			pthread_mutex_unlock(&main_monitor->value_lock);
-			if (check_death(&main_monitor->philos[i]) != 0)
-				return (NULL);
-			i++;
-		}
-		if (count == main_monitor->philos->n_philo)
-		{
-			pthread_mutex_lock(&main_monitor->dead_lock);
-			main_monitor->is_dead = 1;
-			pthread_mutex_unlock(&main_monitor->dead_lock);
+		if (philos_status_loop(main_monitor) == 0)
 			return (NULL);
-		}
-		usleep(100);
 	}
 	return (NULL);
 }
+
+// void	*monitor_thread(void *arg)
+// {
+// 	t_main_struct	*main_monitor;
+// 	int				i;
+// 	int				count;
+
+// 	main_monitor = (t_main_struct *)arg;
+// 	while (1)
+// 	{
+// 		i = 0;
+// 		count = 0;
+// 		while (i < main_monitor->philos->n_philo)
+// 		{
+// 			pthread_mutex_lock(&main_monitor->value_lock);
+// 			if (main_monitor->philos[i].eaten == 0)
+// 				count++;
+// 			pthread_mutex_unlock(&main_monitor->value_lock);
+// 			if (check_death(&main_monitor->philos[i]) != 0)
+// 				return (NULL);
+// 			i++;
+// 		}
+// 		if (count == main_monitor->philos->n_philo)
+// 		{
+// 			pthread_mutex_lock(&main_monitor->dead_lock);
+// 			main_monitor->is_dead = 1;
+// 			pthread_mutex_unlock(&main_monitor->dead_lock);
+// 			return (NULL);
+// 		}
+// 		usleep(100);
+// 	}
+// 	return (NULL);
+// }
