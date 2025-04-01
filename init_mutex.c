@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 10:52:08 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/27 14:52:03 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/01 10:01:45 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	mutex_failed(t_main_struct *m, char *msg)
 	free(m->philos);
 }
 
-int	init_mutex(t_main_struct *m, int amount)
+static int	init_locks(t_main_struct *m)
 {
 	if (pthread_mutex_init(&m->print_lock, NULL) != 0)
 	{
@@ -80,11 +80,29 @@ int	init_mutex(t_main_struct *m, int amount)
 	}
 	if (pthread_mutex_init(&m->dead_lock, NULL) != 0)
 	{
+		pthread_mutex_destroy(&m->print_lock);
 		mutex_failed(m, "Mutex_init dead_lock failed");
 		return (-1);
 	}
 	if (pthread_mutex_init(&m->value_lock, NULL) != 0)
 	{
+		pthread_mutex_destroy(&m->print_lock);
+		pthread_mutex_destroy(&m->dead_lock);
+		mutex_failed(m, "Mutex_init value_lock failed");
+		return (-1);
+	}
+	return (0);
+}
+
+int	init_mutex(t_main_struct *m, int amount)
+{
+	if (init_locks(m) != 0)
+		return (-1);
+	if (pthread_mutex_init(&m->think_lock, NULL) != 0)
+	{
+		pthread_mutex_destroy(&m->print_lock);
+		pthread_mutex_destroy(&m->dead_lock);
+		pthread_mutex_destroy(&m->value_lock);
 		mutex_failed(m, "Mutex_init value_lock failed");
 		return (-1);
 	}

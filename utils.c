@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/24 18:34:24 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:11:23 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_input(int argc, char *argv[])
 	while (argv[i])
 	{
 		j = 0;
-		if (argv[i][j] == '-' || argv[i][j] == '0')
+		if (argv[i][j] == '-' || argv[i][j] == '0' || argv[i][0] == '\0')
 		{
 			return (-1);
 		}
@@ -68,6 +68,10 @@ void	free_and_destroy(int amount, t_main_struct *monitor)
 	int	i;
 
 	i = 0;
+	pthread_mutex_destroy(&monitor->print_lock);
+	pthread_mutex_destroy(&monitor->dead_lock);
+	pthread_mutex_destroy(&monitor->value_lock);
+	pthread_mutex_destroy(&monitor->think_lock);
 	if (monitor->philos != NULL)
 		free(monitor->philos);
 	while (i < amount)

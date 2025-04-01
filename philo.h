@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/28 15:51:57 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/01 09:59:51 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_main_struct
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	value_lock;
+	pthread_mutex_t	think_lock;
 	t_philo			*philos;
 }	t_main_struct;
 
@@ -55,7 +56,7 @@ void		print_message(t_philo *p, char *msg);
 int			init_mutex(t_main_struct *l, int amount);
 //philo_actions
 void		philo_actions(t_philo *p);
-void		philo_thinking(t_philo *p);
+void		philo_thinking(t_philo *p, int check);
 //timer.c
 long long	start_time(void);
 long long	elapsed_time(t_philo *p);
