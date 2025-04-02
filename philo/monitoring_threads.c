@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/01 10:01:15 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:26:30 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*routine(void *arg)
 		return (NULL);
 	}
 	philo_thinking(p, 0);
-	if (p->p_index % 2 == 0)
+	if (p->p_index % 2 != 0)
 		sync_routine(p);
 	while (1)
 	{

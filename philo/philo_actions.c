@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:03:56 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/01 10:07:39 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:15:22 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ static void	philo_eating(t_philo *p)
 
 void	philo_thinking(t_philo *p, int check)
 {
+	int	thinkmore;
+
+	thinkmore = 0;
 	print_message(p, "is thinking");
-	if (check == 1 && p->p_index % 2 != 0)
+	if (check == 1)
 	{
 		pthread_mutex_lock(&p->back->think_lock);
-		if (p->n_philo > 1)
-		{
-			if (p->eat_time > p->sleep_time)
-				wait_in_ms(p, p->eat_time / 2);
-			pthread_mutex_unlock(&p->back->think_lock);
-			return ;
-		}
+		if (p->eat_time > p->sleep_time)
+			thinkmore = 1;
 		pthread_mutex_unlock(&p->back->think_lock);
+		if (thinkmore)
+			wait_in_ms(p, p->eat_time / 2);
 	}
 }
 
