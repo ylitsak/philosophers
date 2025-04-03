@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/03 19:30:57 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:41:13 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,36 +107,3 @@ void	*monitor_thread(void *arg)
 	}
 	return (NULL);
 }
-
-// void	*monitor_thread(void *arg)
-// {
-// 	t_main_struct	*main_monitor;
-// 	int				i;
-// 	int				count;
-
-// 	main_monitor = (t_main_struct *)arg;
-// 	while (1)
-// 	{
-// 		i = 0;
-// 		count = 0;
-// 		while (i < main_monitor->philos->n_philo)
-// 		{
-// 			pthread_mutex_lock(&main_monitor->value_lock);
-// 			if (main_monitor->philos[i].eaten == 0)
-// 				count++;
-// 			pthread_mutex_unlock(&main_monitor->value_lock);
-// 			if (check_death(&main_monitor->philos[i]) != 0)
-// 				return (NULL);
-// 			i++;
-// 		}
-// 		if (count == main_monitor->philos->n_philo)
-// 		{
-// 			pthread_mutex_lock(&main_monitor->dead_lock);
-// 			main_monitor->is_dead = 1;
-// 			pthread_mutex_unlock(&main_monitor->dead_lock);
-// 			return (NULL);
-// 		}
-// 		usleep(100);
-// 	}
-// 	return (NULL);
-// }
