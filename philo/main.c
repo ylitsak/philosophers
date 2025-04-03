@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2024/11/27 11:25:52 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:24:09 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	init_philos(t_main_struct *m, int amount, int argc, char **argv)
 	long long	sim_start;
 
 	i = 0;
+	m->is_dead = 0;
 	sim_start = start_time();
 	while (i < amount)
 	{
@@ -58,7 +59,6 @@ int	main(int argc, char *argv[])
 	t_main_struct	monitor;
 	int				amount;
 
-	monitor.is_dead = 0;
 	if (check_input(argc, &argv[1]) != 0)
 	{
 		print_error("Incorrect input", 2);
@@ -75,7 +75,10 @@ int	main(int argc, char *argv[])
 	if (init_mutex(&monitor, amount) != 0)
 		return (-1);
 	if (create_threads(&monitor, amount) != 0)
+	{
+		free_and_destroy(amount, &monitor);
 		return (-1);
+	}
 	free_and_destroy(amount, &monitor);
 	return (0);
 }
