@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/01 12:11:23 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/07 09:43:36 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	print_message(t_philo *p, char *msg)
 {
 	pthread_mutex_lock(&p->back->print_lock);
 	pthread_mutex_lock(&p->back->dead_lock);
-	if (p->died[0] == 1)
+	if (p->died[0] == 1 || p->eaten == 0)
 	{
 		pthread_mutex_unlock(&p->back->dead_lock);
 		pthread_mutex_unlock(&p->back->print_lock);
