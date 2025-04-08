@@ -6,25 +6,9 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:39:02 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/03 13:24:09 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:32:45 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//argv[1] = number of philos
-//argv[2] = time it will take them to die
-//argv[3] = time it will take them to eat
-//argv[4] = time it will take them to sleep
-//argv[5] = (optional) If all philosophers have eaten at least 
-			//number_of_times_each_philosopher_must_eat times, 
-			//the simulation stops. If not specified, the simulation stops
-			//when a philosopher dies.
-/*memset, printf, malloc, free, write,
-usleep, gettimeofday, pthread_create,
-pthread_detach, pthread_join, pthread_mutex_init,
-pthread_mutex_destroy, pthread_mutex_lock,
-pthread_mutex_unlock*/
-//printf("%d %zu %zu %zu %d\n", philo.n_philo, philo.time_die, philo.time_eat,
-// philo.time_sleep, philo.n_eaten);
 
 #include "philo.h"
 
@@ -59,7 +43,7 @@ int	main(int argc, char *argv[])
 	t_main_struct	monitor;
 	int				amount;
 
-	if (check_input(argc, &argv[1]) != 0)
+	if (check_input(argc, &argv[1]) != 0 || check_max_int(argc, argv) != 0)
 	{
 		print_error("Incorrect input", 2);
 		return (-1);

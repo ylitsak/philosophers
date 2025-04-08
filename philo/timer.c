@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:14:14 by saylital          #+#    #+#             */
-/*   Updated: 2025/03/26 13:37:42 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:17:08 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	wait_in_ms(t_philo *p, long long time)
 	new = start_time();
 	while ((start + time) > new)
 	{
-		usleep(100);
+		usleep(500);
 		pthread_mutex_lock(&p->back->dead_lock);
 		if (p->died[0] == 1)
 		{

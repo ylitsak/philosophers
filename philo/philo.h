@@ -6,17 +6,17 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:50:17 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/01 09:59:51 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:13:20 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-# include <stdio.h> //printf
-# include <unistd.h> // usleep
-# include <stdlib.h> // malloc free
-# include <sys/time.h> //gettimeofday
-# include <pthread.h> //pthreads and mutex
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <pthread.h>
 
 typedef struct s_philo
 {
@@ -47,11 +47,10 @@ typedef struct s_main_struct
 }	t_main_struct;
 
 // utils.c
-long		ft_atoi_long(char *str);
+long long	ft_atoi_long(char *str);
 int			check_input(int argc, char *argv[]);
 void		free_and_destroy(int amount, t_main_struct *monitor);
-void		print_error(char *s, int fd);
-void		print_message(t_philo *p, char *msg);
+int			check_max_int(int argc, char *argv[]);
 //init_locks.c
 int			init_mutex(t_main_struct *l, int amount);
 //philo_actions
@@ -69,5 +68,8 @@ void		sync_routine(t_philo *p);
 //monitoring_threads.c
 void		*monitor_thread(void *arg);
 void		*routine(void *arg);
+//print_message.c
+void		print_message(t_philo *p, char *msg);
+void		print_error(char *s, int fd);
 
 #endif

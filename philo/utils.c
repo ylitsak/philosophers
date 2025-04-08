@@ -6,16 +6,16 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:29:27 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/07 09:43:36 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:30:42 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	ft_atoi_long(char *str)
+long long	ft_atoi_long(char *str)
 {
-	int		neg;
-	long	num;
+	int			neg;
+	long long	num;
 
 	neg = 1;
 	num = 0;
@@ -33,6 +33,23 @@ long	ft_atoi_long(char *str)
 		str++;
 	}
 	return (num * neg);
+}
+
+int	check_max_int(int argc, char *argv[])
+{
+	int			i;
+	long long	check;
+
+	i = 1;
+	while (i < argc)
+	{
+		check = 0;
+		check = ft_atoi_long(argv[i]);
+		if (check >= 2147483647)
+			return (-1);
+		i++;
+	}
+	return (0);
 }
 
 int	check_input(int argc, char *argv[])
@@ -82,32 +99,4 @@ void	free_and_destroy(int amount, t_main_struct *monitor)
 	if (monitor->forks != NULL)
 		free(monitor->forks);
 	return ;
-}
-
-void	print_error(char *s, int fd)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		i++;
-	}
-	write(fd, s, i);
-	write(fd, "\n", 2);
-}
-
-void	print_message(t_philo *p, char *msg)
-{
-	pthread_mutex_lock(&p->back->print_lock);
-	pthread_mutex_lock(&p->back->dead_lock);
-	if (p->died[0] == 1 || p->eaten == 0)
-	{
-		pthread_mutex_unlock(&p->back->dead_lock);
-		pthread_mutex_unlock(&p->back->print_lock);
-		return ;
-	}
-	pthread_mutex_unlock(&p->back->dead_lock);
-	printf("%lld %d %s\n", elapsed_time(p), p->p_index, msg);
-	pthread_mutex_unlock(&p->back->print_lock);
 }

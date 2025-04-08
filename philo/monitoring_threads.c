@@ -6,7 +6,7 @@
 /*   By: saylital <saylital@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 13:45:39 by saylital          #+#    #+#             */
-/*   Updated: 2025/04/03 19:41:13 by saylital         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:36:21 by saylital         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*routine(void *arg)
 		}
 		pthread_mutex_unlock(&p->back->dead_lock);
 		philo_actions(p);
-		usleep(100);
+		usleep(500);
 	}
 	return (NULL);
 }
@@ -91,7 +91,7 @@ static int	philos_status_loop(t_main_struct *m)
 		pthread_mutex_unlock(&m->dead_lock);
 		return (0);
 	}
-	usleep(100);
+	usleep(500);
 	return (1);
 }
 
